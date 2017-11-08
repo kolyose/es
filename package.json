@@ -1,0 +1,48 @@
+{
+  "name": "EventStalk",
+  "version": "1.0.0",
+  "description": "Service for routing messages from main server to clients",
+  "main": "index.js",
+  "author": "Sergey Kolesnik",
+  "license": "Spina LLC",
+  "scripts": {
+    "start": "node --experimental-modules ./src/index.mjs",
+    "test": "node --experimental-modules ./test/server/index.mjs"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^8.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.7.2",
+    "eslint-config-airbnb-base": "^12.0.1",
+    "eslint-config-prettier": "^2.6.0",
+    "eslint-plugin-import": "^2.7.0"
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": [
+      "airbnb-base",
+      "prettier"
+    ],
+    "env": {
+      "node": true
+    },
+    "rules": {
+      "import/no-unresolved": "off",
+      "import/extensions": "off",
+      "no-underscore-dangle": "off"
+    }
+  },
+  "babel": {
+    "presets": [
+      [
+        "env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ]
+    ]
+  }
+}
