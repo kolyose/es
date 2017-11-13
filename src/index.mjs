@@ -27,7 +27,7 @@ const serverService = createUDPServer(
 const clientsService = createTCPServer(config.clients_port, clientConnectionsHandler(TCPMessageParser));
 */
 
-const serverService = createTCPServer(config.server_port, socket => {
+const serverService = createTCPServer(config.server_port, config.private_host, socket => {
   let serverDataHandler = new ServerDataHandler(TCPMessageParser);
   socket.on('data', serverDataHandler.onData.bind(serverDataHandler));
   socket.on('error', err => {
@@ -44,6 +44,7 @@ eslint-enable
 
 const clientsService = createTLSServer(
   config.clients_port,
+  config.public_host,
   clientConnectionsHandler(TCPMessageParser),
 );
 

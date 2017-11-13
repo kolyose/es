@@ -8,9 +8,9 @@ const options = {
   // ca: [ fs.readFileSync('server-cert.pem') ]
 };
 
-export default (port, handler) => {
+export default (port, host, handler) => {
   const server = tls.createServer(options, handler);
-  server.listen(port, () => {
+  server.listen(port, host, () => {
     console.log(`TLS server listening on ${server.address().address}:${server.address().port}`);
     console.log('Version 1.1');
   });
