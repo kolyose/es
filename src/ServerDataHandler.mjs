@@ -8,6 +8,7 @@ export default class ServerDataHandler extends events.EventEmitter {
     super();
     this.parser = parser;
     this.data = null;
+    this.dataProcessing = false;
   }
 
   onData(newData) {
@@ -16,6 +17,13 @@ export default class ServerDataHandler extends events.EventEmitter {
     } else {
       this.data = newData;
     }
+
+    this._processData();
+  }
+
+  _processData() {
+    if (this.dataProcessing || this.data.length === 0) return;
+    this.dataProcessing = true;
 
     const { remainingData, message } = this.parser.parse(this.data);
     this.data = remainingData;
@@ -33,5 +41,8 @@ export default class ServerDataHandler extends events.EventEmitter {
           break;
       }
     }
+
+    this.dataProcessing = false;
+    this._processData();
   }
 }

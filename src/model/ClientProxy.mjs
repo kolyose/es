@@ -19,6 +19,7 @@ export default class ClientProxy extends events.EventEmitter {
     this.sendingMessage = false;
     this.pendingMessages = [];
     this.totalBytesSent = 0;
+    this.dataProcessing = false;
 
     this.authTimeout = setTimeout(() => {
       if (!this.isAuthenticated) {
@@ -53,6 +54,13 @@ export default class ClientProxy extends events.EventEmitter {
     } else {
       this.data = newData;
     }
+
+    this._processData();
+  }
+
+  _processData() {
+    if (this.dataProcessing || this.data.length === 0) return;
+    this.dataProcessing = true;
 
     let message;
     let remainingData;
@@ -102,6 +110,9 @@ export default class ClientProxy extends events.EventEmitter {
         }
       }
     }
+
+    this.dataProcessing = false;
+    this._processData();
   }
 
   async send(messages) {
@@ -120,7 +131,7 @@ export default class ClientProxy extends events.EventEmitter {
       this.sendingMessage = true;
       try {
         await this._sendMessage(this.pendingMessages[0]);
-        // console.log(`ClientProxy::sendMessages => message has been sent!`);
+
         this.pendingMessages.shift();
         this.sendingMessage = false;
         this.send();
