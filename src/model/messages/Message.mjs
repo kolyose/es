@@ -10,22 +10,4 @@ export default class Message {
     this.length = length;
     this.timestamp = timestamp;
   }
-
-  /*
-  get type() {
-    return this.type;
-  }
-
-  get payload() {
-    return this.payload;
-  }
-
-  get length() {
-    return this.length;
-  }
-
-  get timestamp() {
-    return this.timestamp;
-  }
-  */
 }

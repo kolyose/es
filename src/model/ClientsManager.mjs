@@ -23,19 +23,20 @@ class ClientsManager {
     newClient
       .on('end', () => {
         // add logging here
-        console.log(`ClientsManager::client END`);
+        //console.log(`ClientsManager::client END`);
         this.removeClient(newClient);
       })
       // eslint-disable-next-line no-unused-vars
       .on('close', transmissionError => {
         // add logging here
-        console.log(`ClientsManager::client CLOSE`);
+        //console.log(`ClientsManager::client CLOSE`);
         this.removeClient(newClient);
       })
       // eslint-disable-next-line no-unused-vars
       .on('error', err => {
         // add logging here
-        console.log(`ClientsManager::client ERROR`);
+        console.error(err);
+        //console.log(`ClientsManager::client ERROR`);
         this.removeClient(newClient);
       })
       .on('timeout', () => {
@@ -45,8 +46,6 @@ class ClientsManager {
       });
 
     const pendingMessages = this.messagesPool.extractMessagesForClient(newClient.clientID);
-    // console.log(`ClientsManager::pendingMessages:`);
-    // console.dir(pendingMessages);
     this.sendMessagesToClient(newClient, pendingMessages);
   }
 
@@ -61,7 +60,6 @@ class ClientsManager {
       client.destroy();
       client = null;
       delete this.clients[clientID];
-      // console.log(`ClientsManager::removed client ID: ${clientID}`);
     }
   }
 
@@ -85,7 +83,6 @@ class ClientsManager {
 
   sendMessagesToClient(client, messages) {
     if (!client) {
-      // console.log(`ClientsManager::sendMessagesToClient->client is null, so moving back to the pool`);
       this.messagesPool.addMessages(messages);
       return;
     }

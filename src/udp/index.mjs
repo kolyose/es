@@ -9,10 +9,3 @@ export default (port, host, handler) => {
   server.bind(port, host);
   return server;
 };
-
-/*
-server.on('error', err => {
-  console.log(`Error:\n${err.stack}`);
-  server.close();
-});
-*/
